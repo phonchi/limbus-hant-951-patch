@@ -10,7 +10,7 @@ Canto 9.5.1「交織之絲」(Fili Intrecciati) 的繁體中文補丁，給 Limb
 - 英文源文來自 Italian Espresso Office 4/16 release
 - AI subagent 翻譯，詞彙遵循 LTM 角色名稱慣例
 
-## 安裝（朋友端）
+## 安裝
 
 ### 前置
 
