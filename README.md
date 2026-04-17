@@ -24,9 +24,8 @@ Canto 9.5.1「交織之絲」(Fili Intrecciati) 的繁體中文補丁，給 Limb
    ```toml
    [sources.hant-951]
    name = "Canto 9.5.1 繁中補丁"
-   url = "https://raw.githubusercontent.com/<OWNER>/<REPO>/main/localizations.json"
+   url = "https://raw.githubusercontent.com/phonchi/limbus-hant-951-patch/main/localizations.json"
    ```
-   （把 `<OWNER>/<REPO>` 換成實際 GitHub 帳號/儲存庫）
 3. 關閉 manager → 重新打開
 4. **Settings → Source** 下拉選單選「Canto 9.5.1 繁中補丁」
 5. **Localizations** 頁會看到「Canto 9.5.1 繁中補丁 (auto-translate)」→ 按 **+** 安裝
