@@ -3,16 +3,16 @@
   "localizations": [
     {
       "id": "hant-mypatch-951",
-      "version": "1775860258-patched-20260417d",
+      "version": "1775860258-patched-20260417e",
       "name": "Canto 9.5.1 繁中補丁 (auto-translate)",
       "flag": "HANT.png",
       "icon": "",
-      "description": "Limbus Company Canto 9.5.1「交織之絲」繁體中文補丁。\n\n- 基於 LTM (Limbus Traditional Mandarin) 4/11 版本\n- 9.5.1 新章節 (E901B–E914B, S908A) + UI 標題共 2147 條\n- 英文源文來自 Italian Espresso Office 4/16 release\n- 翻譯由 Claude Code subagent 協作完成\n\nLicense: CC BY-NC-SA 4.0 (繼承自 LTM storyline)",
+      "description": "Limbus Company Canto 9.5.1「交織之絲」繁體中文補丁 v5\n- 2100+ 條故事翻譯 + 47 條 UI\n- v5 新增：EventTWTHText.json（活動 UI 按鈕：章節/前往劇院/解鎖條件）\n- 英文源：Italian Espresso 4/16\n- License: CC BY-NC-SA 4.0",
       "authors": [
         "Auto-translate (based on LTM + IT Espresso)"
       ],
       "url": "https://github.com/phonchi/limbus-hant-951-patch/releases/download/v1/my-patch.zip",
-      "size": 4661994,
+      "size": 4662414,
       "fonts": [
         {
           "url": "https://github.com/LimbusTraditionalMandarin/font/releases/download/1744630853/SarasaGothicTC-Bold.ttf",
