@@ -1,0 +1,61 @@
+Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)
+
+=======================================================================
+
+This is a human-readable summary of (and not a substitute for) the license.
+Full legal code: https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode
+
+You are free to:
+
+  Share — copy and redistribute the material in any medium or format
+  Adapt — remix, transform, and build upon the material
+
+Under the following terms:
+
+  Attribution (BY)   — You must give appropriate credit, provide a link to
+                       the license, and indicate if changes were made.
+  NonCommercial (NC) — You may not use the material for commercial purposes.
+  ShareAlike (SA)    — If you remix, transform, or build upon the material,
+                       you must distribute your contributions under the same
+                       license as the original.
+
+No additional restrictions — You may not apply legal terms or technological
+measures that legally restrict others from doing anything the license permits.
+
+=======================================================================
+
+Attribution / 歸屬聲明
+-----------------------------------------------------------------------
+
+This translation patch is a derivative work. Upstream sources:
+
+1. LimbusTraditionalMandarin/storyline (storyline branch)
+   https://github.com/LimbusTraditionalMandarin/storyline
+   License: CC BY-NC-SA 4.0
+   Used as: base Traditional Chinese translation for Canto 1–9 and existing
+   Intervallo content.
+
+2. louzhee/LocalizeLimbusIT (Italian Espresso Office, Release v.1.0.2)
+   https://github.com/louzhee/LocalizeLimbusIT
+   Used as: English source text for Canto 9.5.1 "Fili Intrecciati" content
+   not yet translated by LTM.
+
+3. Claude Code subagents (Anthropic)
+   Automated translation of gaps from English/Korean → Traditional Chinese
+   (Taiwan), with glossary consistency enforcement against LTM conventions.
+
+=======================================================================
+
+繁體中文重點
+-----------------------------------------------------------------------
+
+本補丁為衍生作品，授權條款為 CC BY-NC-SA 4.0：
+
+  - 允許分享與改作
+  - 必須標明來源（LTM、Italian Espresso、AI 輔助翻譯）
+  - 不得用於商業用途
+  - 衍生作品必須沿用相同授權
+
+完整法律條文：https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.zh-Hant
+
+非官方作品，與 ProjectMoon / LTM 翻譯組 / Espresso Office 無隸屬關係。
