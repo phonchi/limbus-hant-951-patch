@@ -3,7 +3,7 @@
   "localizations": [
     {
       "id": "hant-mypatch-951",
-      "version": "1775860258-patched-20260418a",
+      "version": "1775860258-patched-20260418b",
       "name": "Canto 9.5.1 繁中補丁 (auto-translate)",
       "flag": "HANT.png",
       "icon": "",
@@ -12,7 +12,7 @@
         "Auto-translate (based on LTM + IT Espresso)"
       ],
       "url": "https://github.com/phonchi/limbus-hant-951-patch/releases/download/v1/my-patch.zip",
-      "size": 4681895,
+      "size": 4682379,
       "fonts": [
         {
           "url": "https://github.com/LimbusTraditionalMandarin/font/releases/download/1744630853/SarasaGothicTC-Bold.ttf",
