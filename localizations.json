@@ -3,16 +3,16 @@
   "localizations": [
     {
       "id": "hant-mypatch-951",
-      "version": "1775860258-patched-20260417e",
+      "version": "1775860258-patched-20260418a",
       "name": "Canto 9.5.1 繁中補丁 (auto-translate)",
       "flag": "HANT.png",
       "icon": "",
-      "description": "Limbus Company Canto 9.5.1「交織之絲」繁體中文補丁 v5\n- 2100+ 條故事翻譯 + 47 條 UI\n- v5 新增：EventTWTHText.json（活動 UI 按鈕：章節/前往劇院/解鎖條件）\n- 英文源：Italian Espresso 4/16\n- License: CC BY-NC-SA 4.0",
+      "description": "Limbus Company Canto 9.5.1「交織之絲」繁體中文補丁 v6\n- 2100+ 條故事翻譯 + 47 條 UI + 14 個戰鬥檔（*_twth）全翻\n- v6 新增：Skills/Passives/Enemies/Bufs/BattleKeywords/BattleSpeechBubble/AbEvents/ActionEvents/PanicInfo/Assist 全系列 _twth（約 256 條）\n- 英文源：Italian Espresso 4/16\n- License: CC BY-NC-SA 4.0",
       "authors": [
         "Auto-translate (based on LTM + IT Espresso)"
       ],
       "url": "https://github.com/phonchi/limbus-hant-951-patch/releases/download/v1/my-patch.zip",
-      "size": 4662414,
+      "size": 4681895,
       "fonts": [
         {
           "url": "https://github.com/LimbusTraditionalMandarin/font/releases/download/1744630853/SarasaGothicTC-Bold.ttf",
