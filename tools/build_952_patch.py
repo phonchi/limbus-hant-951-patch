@@ -84,6 +84,7 @@ PRIORITY_STORY = {
 PRIORITY_EXACT = {
     "StageNode91-27.json",
     "DungeonNode91-27.json",
+    "SkillTag.json",
     "GachaTitle-a1c8p2.json",
     "Passive_Ego-a1c9p3.json",
     "StoryTheaterDanteNote_13.json",
@@ -152,6 +153,30 @@ CONFIRMED_MISSING_FILES = {
     "StoryTheaterDanteNote_13.json",
     "StoryTheaterDanteNoteDetail_13.json",
     "StoryTheaterMain-a1c7p1.json",
+}
+
+SKILLTAG_EXTRA = {
+    "AlwaysUseEGOPassive2050911": "[\u5e38\u6642\u751f\u6548 - \u528d\u5951 \u5e2b\u7236 \u83ab\u723e\u7d22\u5c08\u7528\u6548\u679c]",
+    "WhenUseEGOPassive": "[\u4f7f\u7528\u6642\u6548\u679c]",
+}
+
+UNITKEYWORD_EXTRA = {
+    "UnitKeyword_S_CORP_SAL": "\u671d\u5ef7 - Sal",
+}
+
+STAGE_9127_TITLES = {
+    912701: "\u9762\u8ac7",
+    912702: "\u6703\u5408",
+    912703: "\u5c0b\u627e\u8f49\u6298\u9ede",
+    912704: "\u8aa4\u89e3",
+    912705: "\u5e95\u7247",
+    912706: "\u7167\u7247",
+    912707: "\u7f50\u982d",
+    912708: "\u7981\u5fcc",
+    912709: "\u8ffd\u8e64",
+    912710: "\u8ffd\u8e64 2",
+    912711: "\u67d0\u4eba\u7684\u5fc3\u50cf",
+    912712: "\u88ab\u651d\u9ad4",
 }
 
 TRANSLATABLE_FIELD_HINTS = {
@@ -606,7 +631,42 @@ def enforce_glossary(value: Any) -> Any:
     out = out.replace("All Identities lose SP", "\u5168\u9ad4\u4eba\u683c\u5931\u53bb SP")
     out = out.replace("Furioso-Replica", "\u72c2\u60f3\u66f2-\u8907\u88fd\u54c1")
     out = out.replace("Aeng-du", "\u6afb\u6843")
+    out = out.replace("[Sal]", "\uff08Sal\uff09")
+    out = out.replace("[Crescendo]", "\uff08Crescendo\uff09")
+    out = out.replace("[Lacrimosa-Crescendo]", "\uff08Lacrimosa-Crescendo\uff09")
     return out
+
+
+def enforce_file_specific(file_key: str, doc: Any) -> Any:
+    doc = enforce_glossary(doc)
+    if file_key == "StageNode91-27.json":
+        for item in entries(doc):
+            if isinstance(item, dict) and item.get("id") in STAGE_9127_TITLES:
+                item["title"] = STAGE_9127_TITLES[item["id"]]
+    if file_key == "DungeonNode91-27.json":
+        for item in entries(doc):
+            if not isinstance(item, dict):
+                continue
+            for stage in item.get("stageList", []):
+                if isinstance(stage, dict):
+                    stage["title"] = STAGE_9127_TITLES.get(stage.get("id"), "\u67d0\u4eba\u7684\u5fc3\u50cf")
+    if file_key == "SkillTag.json":
+        current = {
+            str(item.get("id")): item
+            for item in entries(doc)
+            if isinstance(item, dict) and "id" in item
+        }
+        data = entries(doc)
+        for tag_id, name in SKILLTAG_EXTRA.items():
+            if tag_id in current:
+                current[tag_id]["name"] = name
+            else:
+                data.append({"id": tag_id, "name": name})
+    if file_key == "UnitKeyword-exem.json":
+        for item in entries(doc):
+            if isinstance(item, dict) and item.get("id") in UNITKEYWORD_EXTRA:
+                item["content"] = UNITKEYWORD_EXTRA[item["id"]]
+    return doc
 
 
 def command_merge(args: argparse.Namespace) -> None:
@@ -665,7 +725,7 @@ def command_merge(args: argparse.Namespace) -> None:
             for field, value in fields.items():
                 set_field(entry, field, value)
                 fields_written += 1
-        save_json(target, enforce_glossary(wrap_entries(template, target_entries)))
+        save_json(target, enforce_file_specific(file_key, wrap_entries(template, target_entries)))
         files_written += 1
 
     if missing_translations:
@@ -705,10 +765,28 @@ def relevant_missing_outputs(localize_root: Path, historical_root: Path | None) 
     return missing
 
 
+def strict_placeholder_file(file_key: str) -> bool:
+    base = Path(file_key).name
+    if base in {
+        "StageNode91-27.json",
+        "DungeonNode91-27.json",
+        "SkillTag.json",
+        "GachaTitle-a1c8p2.json",
+        "StoryTheaterDanteNote_13.json",
+        "StoryTheaterDanteNoteDetail_13.json",
+        "StoryTheaterMain-a1c7p1.json",
+        "UnitKeyword-exem.json",
+    }:
+        return True
+    return any(token in base for token in ("exme", "Mirror7", "a1c9p3"))
+
+
 def glossary_issues_for_value(file_key: str, path: str, value: str) -> list[dict[str, Any]]:
     issues = []
     if looks_like_asset(value):
         return issues
+    if strict_placeholder_file(file_key) and ("???" in value or re.fullmatch(r"\?{2,}(?:\s*\d+)?", value.strip())):
+        issues.append({"file": file_key, "field": path, "problem": "placeholder_question_marks", "sample": value[:160]})
     if "Bamboo-hatted Kim" in value:
         issues.append({"file": file_key, "field": path, "problem": "glossary_bamboo_hatted_kim", "sample": value[:160]})
     if "Dokkaebi Arms" in value:
@@ -720,9 +798,34 @@ def glossary_issues_for_value(file_key: str, path: str, value: str) -> list[dict
     return issues
 
 
+def reference_token_ids() -> set[str]:
+    ids: set[str] = set()
+    for pattern in ("SkillTag.json", "BattleKeywords*.json", "Bufs*.json", "UnitKeyword*.json"):
+        for path in MERGED.glob(pattern):
+            try:
+                doc = load_json(path)
+            except Exception:
+                continue
+            for item in entries(doc):
+                if isinstance(item, dict) and "id" in item:
+                    ids.add(str(item["id"]))
+    return ids
+
+
+def bracket_token_issues(file_key: str, path: str, value: str, valid_ids: set[str]) -> list[dict[str, Any]]:
+    issues = []
+    if looks_like_asset(value):
+        return issues
+    for token in re.findall(r"\[([A-Za-z0-9_]+)\]", value):
+        if token not in valid_ids:
+            issues.append({"file": file_key, "field": path, "problem": "unknown_bracket_token", "token": token, "sample": value[:160]})
+    return issues
+
+
 def command_qa(args: argparse.Namespace) -> None:
     analysis = load_json(WORKSPACE / "analysis.json")
     issues = []
+    valid_token_ids = reference_token_ids()
     coverage_missing = relevant_missing_outputs(Path(args.localize), Path(args.historical) if args.historical else None)
     for file_key in coverage_missing:
         issues.append({"file": file_key, "problem": "coverage_missing"})
@@ -746,6 +849,7 @@ def command_qa(args: argparse.Namespace) -> None:
         }
         for field_path, value in iter_translatable_strings(doc):
             issues.extend(glossary_issues_for_value(file_key, field_path, value))
+            issues.extend(bracket_token_issues(file_key, field_path, value, valid_token_ids))
         for unit in units:
             entry = by_id.get(unit.get("id")) if unit.get("id") is not None else None
             if entry is None and unit["position"] < len(doc_entries):
