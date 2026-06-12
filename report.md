@@ -1,11 +1,11 @@
 # 9.5.2 繁中補丁報告
 
 - 基底：官方 `hant-LTM` `1780889854`
-- 候選檔案：67
-- 候選 entries：2608
-- 候選欄位：3716
+- 候選檔案：75
+- 候選 entries：2652
+- 候選欄位：3775
 - 歷史覆蓋族群：1630
-- Zip：`dist/my-patch.zip` (12681270 bytes, 2017 files)
+- Zip：`dist/my-patch.zip` (12682248 bytes, 2017 files)
 - QA issues：0
 
 ## 策略

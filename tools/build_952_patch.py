@@ -97,8 +97,16 @@ PRIORITY_EXACT = {
     "Voice_Ishmael_LCD_10815.json",
     "DungeonName_Event.json",
     "HellsChickenDungeonNode.json",
+    "IAPProduct-a1c9.json",
     "MirrorDungeonTheme-1.json",
     "GachaTitle.json",
+    "StageChapterText.json",
+    "TutorialMainUIText.json",
+    "UnlockCode-1.json",
+    "UserBanner.json",
+    "UserTicket-EGOBg.json",
+    "UserTicket-L.json",
+    "UserTicket-R.json",
     "BattleKeywords.json",
     "Bufs.json",
     "BattleSpeechBubbleDlg.json",
@@ -162,6 +170,52 @@ SKILLTAG_EXTRA = {
 
 UNITKEYWORD_EXTRA = {
     "UnitKeyword_S_CORP_SAL": "\u671d\u5ef7 - Sal",
+}
+
+MNESTIC_NAME = "\u8a18\u61b6\u9ad4\u9a57"
+
+MNESTIC_REPLACEMENTS = {
+    "Ch. 9.5 Mnestic Experience Dungeon": f"9.5\u7ae0 {MNESTIC_NAME}\u5730\u7262",
+    "New Identity & \u042d.\u0413.\u041e Target Extraction - Mnestic Experience": f"\u65b0\u4eba\u683c\uff06E.G.O \u5b9a\u5411\u62bd\u53d6 - {MNESTIC_NAME}",
+    "New Identity & E.G.O Target Extraction - Mnestic Experience": f"\u65b0\u4eba\u683c\uff06E.G.O \u5b9a\u5411\u62bd\u53d6 - {MNESTIC_NAME}",
+    "Mnestic Experience - Special Banner": f"{MNESTIC_NAME} - \u7279\u5225\u6a6b\u5e45",
+    "Mnestic Experience - Special Ticket": f"{MNESTIC_NAME} - \u7279\u5225\u5238",
+    "Mnestic Experience Event Page": f"{MNESTIC_NAME}\u6d3b\u52d5\u9801\u9762",
+    "Mnestic Experience Stages": f"{MNESTIC_NAME}\u95dc\u5361",
+    "Mnestic Experience combat Encounters": f"{MNESTIC_NAME}\u6230\u9b25\u906d\u9047",
+    "Mnestic Experience Event": f"{MNESTIC_NAME}\u6d3b\u52d5",
+    "Mnestic Experience event": f"{MNESTIC_NAME}\u6d3b\u52d5",
+    "Mnestic Experience": MNESTIC_NAME,
+    "Obtained from the \u8a18\u61b6\u9ad4\u9a57\u6d3b\u52d5": f"\u53ef\u5f9e\u300c{MNESTIC_NAME}\u300d\u6d3b\u52d5\u7372\u5f97",
+    "Clear \u8a18\u61b6\u9ad4\u9a57": f"\u901a\u95dc\u300c{MNESTIC_NAME}\u300d",
+    "\u042d.\u0413.\u041e": "E.G.O",
+}
+
+KNOWN_TEXT_TRANSLATIONS = {
+    "N Corp.": "N\u516c\u53f8",
+    "District 14": "14\u5340",
+    "Intervallo VII": "\u9593\u7ae0 VII",
+    "Accessing the Event": "\u9032\u5165\u6d3b\u52d5",
+    "Event Period": "\u6d3b\u52d5\u671f\u9593",
+    "Event Encounters": "\u6d3b\u52d5\u906d\u9047",
+    "Event Bonus Units": "\u6d3b\u52d5\u52a0\u6210\u55ae\u4f4d",
+    "Reward Exchange": "\u734e\u52f5\u514c\u63db",
+    "Photo Bundles": "\u7167\u7247\u5305",
+    "1st Birthday": "1\u9031\u5e74",
+    "2nd Anniversary": "2\u9031\u5e74",
+    "2nd Anniversary (Special)": "2\u9031\u5e74\uff08\u7279\u5225\uff09",
+    "3rd Anniversary": "3\u9031\u5e74",
+    "3rd Anniversary (Special)": "3\u9031\u5e74\uff08\u7279\u5225\uff09",
+    "Clear 9.5-26": "\u901a\u95dc 9.5-26",
+    "The [Mnestic Experience Event Page] opens after clearing Stage 0-4 of the Main Story. You may enter the event page via the banner on the Window or the Driverside.": f"\u901a\u95dc\u4e3b\u7dda\u6545\u4e8b 0-4 \u5f8c\uff0c\u5c07\u958b\u653e\u300c{MNESTIC_NAME}\u6d3b\u52d5\u9801\u9762\u300d\u3002\u53ef\u900f\u904e\u8996\u7a97\u6216\u99d5\u99db\u5ea7\u7684\u6a6b\u5e45\u9032\u5165\u6d3b\u52d5\u9801\u9762\u3002",
+    "The duration of the Mnestic Experience event is shown here.\nDuring the event, you can earn [Photos] by clearing Event Stages. You can also earn [Photos] by clearing the Mirror Dungeons or clearing Main Story Stages for the first time.\n\u203b However, [Photos] cannot be obtained in Luxcavations and Refraction Railways.": f"\u6b64\u8655\u6703\u986f\u793a\u300c{MNESTIC_NAME}\u300d\u6d3b\u52d5\u7684\u671f\u9593\u3002\n\u6d3b\u52d5\u671f\u9593\uff0c\u53ef\u900f\u904e\u901a\u95dc\u6d3b\u52d5\u95dc\u5361\u7372\u5f97\u300c\u7167\u7247\u300d\u3002\u9996\u6b21\u901a\u95dc\u93e1\u5730\u7262\u6216\u4e3b\u7dda\u6545\u4e8b\u95dc\u5361\u6642\uff0c\u4e5f\u53ef\u7372\u5f97\u300c\u7167\u7247\u300d\u3002\n\u203b \u4f46\u7d10\u7d5e\u63a1\u5149\u8207\u6298\u5c04\u9435\u9053\u7121\u6cd5\u7372\u5f97\u300c\u7167\u7247\u300d\u3002",
+    "Mnestic Experience Event consists of 11 stages, including story stages, and a single dungeon. Said stages also offer batches of [Photos] as a first-time Clear bonus (only for first-time clears of each Stage).\n\nYou can earn considerably more [Photos] from Mnestic Experience Stages compared to Main Story Stages. ": f"\u300c{MNESTIC_NAME}\u300d\u6d3b\u52d5\u7531 11 \u500b\u95dc\u5361\u8207 1 \u500b\u5730\u7262\u7d44\u6210\uff0c\u5176\u4e2d\u5305\u542b\u6545\u4e8b\u95dc\u5361\u3002\u9019\u4e9b\u95dc\u5361\u4e5f\u6703\u5728\u9996\u6b21\u901a\u95dc\u6642\u63d0\u4f9b\u300c\u7167\u7247\u300d\u4f5c\u70ba\u9996\u901a\u734e\u52f5\uff08\u50c5\u9650\u5404\u95dc\u5361\u9996\u6b21\u901a\u95dc\uff09\u3002\n\n\u8207\u4e3b\u7dda\u6545\u4e8b\u95dc\u5361\u76f8\u6bd4\uff0c\u300c{MNESTIC_NAME}\u300d\u95dc\u5361\u53ef\u7372\u5f97\u66f4\u591a\u300c\u7167\u7247\u300d\u3002",
+    "Having Bonus Identities on your team increases the amount of [Photos] earned from Stages and Mirror Dungeons.": "\u968a\u4f0d\u4e2d\u7de8\u5165\u52a0\u6210\u4eba\u683c\u6642\uff0c\u53ef\u589e\u52a0\u5f9e\u95dc\u5361\u8207\u93e1\u5730\u7262\u7372\u5f97\u7684\u300c\u7167\u7247\u300d\u6578\u91cf\u3002",
+    "You can redeem various rewards from the [Reward Exchange] based on the number of [Photos] you have.": "\u53ef\u6839\u64da\u6301\u6709\u7684\u300c\u7167\u7247\u300d\u6578\u91cf\uff0c\u5728\u300c\u734e\u52f5\u514c\u63db\u6240\u300d\u514c\u63db\u5404\u7a2e\u734e\u52f5\u3002",
+    "The [Reward Exchange]'s open duration is shown here.": "\u6b64\u8655\u6703\u986f\u793a\u300c\u734e\u52f5\u514c\u63db\u6240\u300d\u7684\u958b\u653e\u671f\u9593\u3002",
+    "You can acquire the event reward Identity, Ticket Deco, banners, and various currencies from [Reward Exchange] menu.": "\u53ef\u5728\u300c\u734e\u52f5\u514c\u63db\u6240\u300d\u9078\u55ae\u4e2d\u7372\u5f97\u6d3b\u52d5\u734e\u52f5\u4eba\u683c\u3001\u8eca\u7968\u88dd\u98fe\u3001\u6a6b\u5e45\u8207\u5404\u7a2e\u8ca8\u5e63\u3002",
+    "Rarely, you may obtain [Photo Bundles] from clearing Encounters. [Photo Bundles] is automatically converted to 20 [Photos] upon acquisition.": "\u901a\u95dc\u906d\u9047\u6642\uff0c\u6709\u4f4e\u6a5f\u7387\u7372\u5f97\u300c\u7167\u7247\u5305\u300d\u3002\u7372\u5f97\u300c\u7167\u7247\u5305\u300d\u6642\uff0c\u6703\u81ea\u52d5\u8f49\u63db\u70ba 20 \u500b\u300c\u7167\u7247\u300d\u3002",
+    "Even after the event fully ends, you will be able to experience the Mnestic Experience combat Encounters and view its story anytime at the Driverside - [Deviazione] and Theater - [Detour Tales].": f"\u5373\u4f7f\u6d3b\u52d5\u5b8c\u5168\u7d50\u675f\uff0c\u4e5f\u53ef\u96a8\u6642\u5728\u99d5\u99db\u5ea7\u7684\u300cDeviazione\u300d\u8207\u5287\u5834\u7684\u300c\u7e5e\u9053\u6545\u4e8b\u300d\u4e2d\uff0c\u9ad4\u9a57\u300c{MNESTIC_NAME}\u300d\u7684\u6230\u9b25\u906d\u9047\u4e26\u95b1\u89bd\u5176\u6545\u4e8b\u3002",
 }
 
 STAGE_9127_TITLES = {
@@ -634,7 +688,63 @@ def enforce_glossary(value: Any) -> Any:
     out = out.replace("[Sal]", "\uff08Sal\uff09")
     out = out.replace("[Crescendo]", "\uff08Crescendo\uff09")
     out = out.replace("[Lacrimosa-Crescendo]", "\uff08Lacrimosa-Crescendo\uff09")
+    for source, target in MNESTIC_REPLACEMENTS.items():
+        out = out.replace(source, target)
     return out
+
+
+def token_preserve_file(file_key: str) -> bool:
+    base = Path(file_key).name
+    return base in {
+        "Skills_Abnormality-exme.json",
+        "Skills_Assist-exme.json",
+        "Skills_Enemy-exme.json",
+        "Passives_Abnormality-exme.json",
+        "Passives_Assist-exme.json",
+        "Passives_Enemy-exme.json",
+    }
+
+
+def restore_bracket_tokens(source: Any, translated: Any) -> Any:
+    if not isinstance(source, str) or not isinstance(translated, str):
+        return translated
+    source_tokens = re.findall(r"\[[A-Za-z0-9_]+\]", source)
+    if not source_tokens:
+        return translated
+    target_spans = list(re.finditer(r"\[[^\[\]]+\]", translated))
+    if len(target_spans) != len(source_tokens):
+        return translated
+    pieces = []
+    last = 0
+    for span, source_token in zip(target_spans, source_tokens):
+        pieces.append(translated[last:span.start()])
+        pieces.append(source_token)
+        last = span.end()
+    pieces.append(translated[last:])
+    return "".join(pieces)
+
+
+def known_translate(value: Any) -> str | None:
+    if not isinstance(value, str):
+        return None
+    if value in KNOWN_TEXT_TRANSLATIONS:
+        return KNOWN_TEXT_TRANSLATIONS[value]
+    if "Mnestic Experience" in value or "\u042d.\u0413.\u041e" in value:
+        out = value
+        for source, target in MNESTIC_REPLACEMENTS.items():
+            out = out.replace(source, target)
+        return out
+    return None
+
+
+def known_translation_fields(unit: dict[str, Any]) -> dict[str, str] | None:
+    fields: dict[str, str] = {}
+    for field, value in unit.get("fields", {}).items():
+        translated = known_translate(value)
+        if translated is None:
+            return None
+        fields[field] = translated
+    return fields
 
 
 def enforce_file_specific(file_key: str, doc: Any) -> Any:
@@ -714,15 +824,19 @@ def command_merge(args: argparse.Namespace) -> None:
             processed_keys.add(tr_key)
             fields = translations.get(tr_key)
             if fields is None:
-                missing_translations.append(unit)
-                continue
+                fields = known_translation_fields(unit)
+                if fields is None:
+                    missing_translations.append(unit)
+                    continue
             entry = by_id.get(unit.get("id")) if unit.get("id") is not None else None
             if entry is None:
                 entry = target_entries[unit["position"]]
-                if not isinstance(entry, dict):
-                    entry = copy.deepcopy(source_entries[unit["position"]])
-                    target_entries[unit["position"]] = entry
+            if not isinstance(entry, dict):
+                entry = copy.deepcopy(source_entries[unit["position"]])
+                target_entries[unit["position"]] = entry
             for field, value in fields.items():
+                if token_preserve_file(file_key) and field.endswith("desc"):
+                    value = restore_bracket_tokens(unit.get("fields", {}).get(field), value)
                 set_field(entry, field, value)
                 fields_written += 1
         save_json(target, enforce_file_specific(file_key, wrap_entries(template, target_entries)))
@@ -816,6 +930,11 @@ def bracket_token_issues(file_key: str, path: str, value: str, valid_ids: set[st
     issues = []
     if looks_like_asset(value):
         return issues
+    if not (token_preserve_file(file_key) and path.endswith("desc")):
+        return issues
+    for raw_token in re.findall(r"\[([^\[\]]+)\]", value):
+        if contains_han(raw_token):
+            issues.append({"file": file_key, "field": path, "problem": "translated_bracket_token", "token": raw_token, "sample": value[:160]})
     for token in re.findall(r"\[([A-Za-z0-9_]+)\]", value):
         if token not in valid_ids:
             issues.append({"file": file_key, "field": path, "problem": "unknown_bracket_token", "token": token, "sample": value[:160]})
@@ -1046,3 +1165,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
