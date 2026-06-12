@@ -33,6 +33,14 @@ DEFAULT_RCR = (
     / "extract"
 )
 
+DEFAULT_HISTORICAL = (
+    ROOT.parents[1]
+    / "LimbusLocalize_2026060701"
+    / "LimbusCompany_Data"
+    / "Lang"
+    / "LLC_zh-CN"
+)
+
 HAN_RE = re.compile(r"[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]")
 HANGUL_RE = re.compile(r"[\u1100-\u11ff\u3130-\u318f\uac00-\ud7af]")
 ASSET_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_\-./:]*[A-Za-z0-9]$")
@@ -76,6 +84,14 @@ PRIORITY_STORY = {
 PRIORITY_EXACT = {
     "StageNode91-27.json",
     "DungeonNode91-27.json",
+    "GachaTitle-a1c8p2.json",
+    "Passive_Ego-a1c9p3.json",
+    "StoryTheaterDanteNote_13.json",
+    "StoryTheaterDanteNoteDetail_13.json",
+    "StoryTheaterMain-a1c7p1.json",
+    "Skills_Abnormality-exme.json",
+    "Skills_Assist-exme.json",
+    "Skills_Enemy-exme.json",
     "Voice_Honglu_SCorp_10615.json",
     "Voice_Ishmael_LCD_10815.json",
     "DungeonName_Event.json",
@@ -95,9 +111,48 @@ PRIORITY_PATTERNS = (
     "mirror7",
     "a1c9115",
     "9127",
+    "91-27",
     "10615",
     "10815",
 )
+
+HISTORICAL_RELEVANT_RE = re.compile(
+    r"(91-27|9127|exme|Mirror7|mirror7|a1c9p3|DanteNote_13|"
+    r"DanteNoteDetail_13|StoryTheaterMain-a1c7p1|GachaTitle)"
+)
+
+HISTORICAL_FAMILY_PREFIXES = {
+    "AbEvents",
+    "ActionEvents",
+    "BattleKeywords",
+    "Bufs",
+    "DungeonNode",
+    "Enemies",
+    "GachaTitle",
+    "Passive_Ego",
+    "Passives_Abnormality",
+    "Passives_Assist",
+    "Passives_Enemy",
+    "Skills_Abnormality",
+    "Skills_Assist",
+    "Skills_Enemy",
+    "StageNode",
+    "StoryTheaterDanteNote",
+    "StoryTheaterDanteNoteDetail",
+    "StoryTheaterMain",
+}
+
+CONFIRMED_MISSING_FILES = {
+    "DungeonNode91-27.json",
+    "GachaTitle-a1c8p2.json",
+    "Passive_Ego-a1c9p3.json",
+    "Skills_Abnormality-exme.json",
+    "Skills_Assist-exme.json",
+    "Skills_Enemy-exme.json",
+    "StoryTheaterDanteNote_13.json",
+    "StoryTheaterDanteNoteDetail_13.json",
+    "StoryTheaterMain-a1c7p1.json",
+}
 
 TRANSLATABLE_FIELD_HINTS = {
     "content",
@@ -181,12 +236,27 @@ def relative_key(root: Path, path: Path) -> str:
     return "/".join(parts)
 
 
+def family_name(file_name: str) -> str:
+    stem = Path(normalized_name(Path(file_name))).stem
+    stem = re.sub(r"[-_](?:a\d+c\d+(?:p\d+)?|a\d+c\d+|Mirror\d+.*|exme|exem)$", "", stem, flags=re.I)
+    stem = re.sub(r"\d+-\d+$", "", stem)
+    stem = re.sub(r"_\d+$", "", stem)
+    return stem
+
+
 def index_json(root: Path, *, prefixed: bool = False) -> dict[str, Path]:
     out: dict[str, Path] = {}
     for path in root.rglob("*.json"):
         key = relative_key(root, path) if prefixed else normalized_name(path)
         out.setdefault(key, path)
     return out
+
+
+def historical_families(root: Path | None) -> set[str]:
+    if not root or not root.exists():
+        return set()
+    families = {family_name(path.name) for path in root.rglob("*.json")}
+    return families | HISTORICAL_FAMILY_PREFIXES
 
 
 def contains_han(value: str) -> bool:
@@ -226,9 +296,11 @@ def is_untranslated(en_text: str, hant_text: Any) -> bool:
     return False
 
 
-def priority_name(name: str, rel_key: str) -> bool:
+def priority_name(name: str, rel_key: str, historical: set[str] | None = None) -> bool:
     base = Path(name).name
     if base in PRIORITY_STORY or base in PRIORITY_EXACT:
+        return True
+    if historical and HISTORICAL_RELEVANT_RE.search(base) and family_name(base) in historical:
         return True
     return any(token in base or token in rel_key for token in PRIORITY_PATTERNS)
 
@@ -317,13 +389,19 @@ def build_unit(
     }
 
 
-def analyze_sources(hant_root: Path, localize_root: Path, rcr_root: Path | None) -> dict[str, Any]:
+def analyze_sources(
+    hant_root: Path,
+    localize_root: Path,
+    rcr_root: Path | None,
+    historical_root: Path | None,
+) -> dict[str, Any]:
     en_root = localize_root / "en"
     kr_root = localize_root / "kr"
     en_index = index_json(en_root, prefixed=True)
     hant_index = index_json(hant_root, prefixed=True)
     kr_index = index_json(kr_root, prefixed=True) if kr_root.exists() else {}
     rcr_index = index_json(rcr_root, prefixed=True) if rcr_root and rcr_root.exists() else {}
+    historical = historical_families(historical_root)
 
     units: list[dict[str, Any]] = []
     skipped_nonpriority: list[str] = []
@@ -331,7 +409,7 @@ def analyze_sources(hant_root: Path, localize_root: Path, rcr_root: Path | None)
 
     for file_key, en_path in sorted(en_index.items()):
         base = Path(file_key).name
-        is_priority = priority_name(base, file_key)
+        is_priority = priority_name(base, file_key, historical)
         en_doc = load_json(en_path)
         en_entries = entries(en_doc)
         hant_path = hant_index.get(file_key)
@@ -373,6 +451,15 @@ def analyze_sources(hant_root: Path, localize_root: Path, rcr_root: Path | None)
                 "rcr_present": file_key in rcr_index or base in rcr_index,
                 "kr_present": file_key in kr_index or base in kr_index,
             }
+        elif is_priority and missing_file:
+            file_stats[file_key] = {
+                "units": 0,
+                "fields": 0,
+                "missing_file": True,
+                "copy_only": True,
+                "rcr_present": file_key in rcr_index or base in rcr_index,
+                "kr_present": file_key in kr_index or base in kr_index,
+            }
 
     report = {
         "stats": {
@@ -380,6 +467,7 @@ def analyze_sources(hant_root: Path, localize_root: Path, rcr_root: Path | None)
             "hant_files": len(hant_index),
             "kr_files": len(kr_index),
             "rcr_files": len(rcr_index),
+            "historical_families": len(historical),
             "candidate_files": len(file_stats),
             "candidate_units": len(units),
             "candidate_fields": sum(len(u["fields"]) for u in units),
@@ -435,7 +523,12 @@ def write_chunks(report: dict[str, Any], *, chunk_size: int) -> dict[str, Any]:
 
 def command_prepare(args: argparse.Namespace) -> None:
     WORKSPACE.mkdir(parents=True, exist_ok=True)
-    report = analyze_sources(Path(args.hant), Path(args.localize), Path(args.rcr) if args.rcr else None)
+    report = analyze_sources(
+        Path(args.hant),
+        Path(args.localize),
+        Path(args.rcr) if args.rcr else None,
+        Path(args.historical) if args.historical else None,
+    )
     save_json(WORKSPACE / "analysis.json", report)
     manifest = write_chunks(report, chunk_size=args.chunk_size)
     print(json.dumps({"analysis": report["stats"], "chunks": manifest["chunks"][:10]}, ensure_ascii=False, indent=2))
@@ -493,6 +586,29 @@ def set_field(entry: dict[str, Any], field_path: str, value: str) -> None:
         current[last] = value
 
 
+def enforce_glossary(value: Any) -> Any:
+    if isinstance(value, dict):
+        return {key: enforce_glossary(child) for key, child in value.items()}
+    if isinstance(value, list):
+        return [enforce_glossary(child) for child in value]
+    if not isinstance(value, str):
+        return value
+    out = value
+    out = out.replace("Bamboo-hatted Kim", "\u91d1\u7b20")
+    out = out.replace("Dokkaebi Arms", "\u9b3c\u602a\u81c2")
+    out = out.replace("\u7af9\u7b20\u91d1", "\u91d1\u7b20")
+    out = out.replace("\u7af9\u7b20 Kim", "\u91d1\u7b20")
+    out = out.replace("(\ub354\ubbf8)", "(\u5360\u4f4d)")
+    out = out.replace("No particular effect", "\u7121\u7279\u6b8a\u6548\u679c")
+    out = out.replace("Say that you're not.", "\u8aaa\u81ea\u5df1\u4e26\u975e\u5982\u6b64\u3002")
+    out = out.replace("The wind-howling path.", "\u72c2\u98a8\u547c\u5578\u7684\u9053\u8def\u3002")
+    out = out.replace("The silent path.", "\u5bc2\u975c\u7121\u8072\u7684\u9053\u8def\u3002")
+    out = out.replace("All Identities lose SP", "\u5168\u9ad4\u4eba\u683c\u5931\u53bb SP")
+    out = out.replace("Furioso-Replica", "\u72c2\u60f3\u66f2-\u8907\u88fd\u54c1")
+    out = out.replace("Aeng-du", "\u6afb\u6843")
+    return out
+
+
 def command_merge(args: argparse.Namespace) -> None:
     analysis = load_json(WORKSPACE / "analysis.json")
     translations = load_translations()
@@ -508,7 +624,8 @@ def command_merge(args: argparse.Namespace) -> None:
     missing_translations = []
     files_written = 0
     fields_written = 0
-    for file_key, units in sorted(units_by_file.items()):
+    for file_key in sorted(analysis["files"]):
+        units = units_by_file.get(file_key, [])
         source_doc = load_json(en_index[file_key])
         source_entries = entries(source_doc)
         target = MERGED / file_key
@@ -548,7 +665,7 @@ def command_merge(args: argparse.Namespace) -> None:
             for field, value in fields.items():
                 set_field(entry, field, value)
                 fields_written += 1
-        save_json(target, wrap_entries(template, target_entries))
+        save_json(target, enforce_glossary(wrap_entries(template, target_entries)))
         files_written += 1
 
     if missing_translations:
@@ -571,14 +688,50 @@ def scan_strings(value: Any, path: str = "") -> list[tuple[str, str]]:
     return out
 
 
+def relevant_missing_outputs(localize_root: Path, historical_root: Path | None) -> list[str]:
+    en_index = index_json(localize_root / "en", prefixed=True)
+    merged_index = index_json(MERGED, prefixed=True) if MERGED.exists() else {}
+    historical = historical_families(historical_root)
+    missing = []
+    for file_key in sorted(en_index):
+        base = Path(file_key).name
+        if file_key in merged_index:
+            continue
+        if base in CONFIRMED_MISSING_FILES:
+            missing.append(file_key)
+            continue
+        if HISTORICAL_RELEVANT_RE.search(base) and family_name(base) in historical:
+            missing.append(file_key)
+    return missing
+
+
+def glossary_issues_for_value(file_key: str, path: str, value: str) -> list[dict[str, Any]]:
+    issues = []
+    if looks_like_asset(value):
+        return issues
+    if "Bamboo-hatted Kim" in value:
+        issues.append({"file": file_key, "field": path, "problem": "glossary_bamboo_hatted_kim", "sample": value[:160]})
+    if "Dokkaebi Arms" in value:
+        issues.append({"file": file_key, "field": path, "problem": "glossary_dokkaebi_arms", "sample": value[:160]})
+    if "\u7af9\u7b20\u91d1" in value or "\u7af9\u7b20 Kim" in value:
+        issues.append({"file": file_key, "field": path, "problem": "glossary_kim_variant", "sample": value[:160]})
+    if re.search(r"(?<![A-Za-z])Kim(?![A-Za-z])", value):
+        issues.append({"file": file_key, "field": path, "problem": "glossary_kim_english", "sample": value[:160]})
+    return issues
+
+
 def command_qa(args: argparse.Namespace) -> None:
     analysis = load_json(WORKSPACE / "analysis.json")
     issues = []
+    coverage_missing = relevant_missing_outputs(Path(args.localize), Path(args.historical) if args.historical else None)
+    for file_key in coverage_missing:
+        issues.append({"file": file_key, "problem": "coverage_missing"})
     by_file: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for unit in analysis["units"]:
         by_file[unit["file"]].append(unit)
 
-    for file_key, units in sorted(by_file.items()):
+    for file_key in sorted(analysis["files"]):
+        units = by_file.get(file_key, [])
         path = MERGED / file_key
         try:
             doc = load_json(path)
@@ -591,6 +744,8 @@ def command_qa(args: argparse.Namespace) -> None:
             for item in doc_entries
             if isinstance(item, dict) and "id" in item
         }
+        for field_path, value in iter_translatable_strings(doc):
+            issues.extend(glossary_issues_for_value(file_key, field_path, value))
         for unit in units:
             entry = by_id.get(unit.get("id")) if unit.get("id") is not None else None
             if entry is None and unit["position"] < len(doc_entries):
@@ -686,6 +841,68 @@ def command_package(args: argparse.Namespace) -> None:
     print(f"wrote {zip_path} ({size} bytes, {count} files)")
 
 
+def command_package(args: argparse.Namespace) -> None:
+    DIST.mkdir(parents=True, exist_ok=True)
+    zip_path = DIST / "my-patch.zip"
+    count = zip_tree(MERGED, zip_path)
+    size = zip_path.stat().st_size
+    version = f"1780889854-patched-952-{time.strftime('%Y%m%d%H%M')}"
+    manifest = {
+        "format_version": 1,
+        "localizations": [
+            {
+                "id": "hant-mypatch-952",
+                "version": version,
+                "name": "Canto 9.5.2 \u7e41\u4e2d\u88dc\u4e01",
+                "flag": "HANT.png",
+                "icon": "",
+                "description": (
+                    "Limbus Company 9.5.2 \u7e41\u9ad4\u4e2d\u6587\u88dc\u4e01\\n"
+                    "- \u57fa\u5e95\uff1a\u5b98\u65b9 LTM hant-LTM 1780889854\\n"
+                    "- \u88dc\u4e0a 9.5.2 \u7f3a\u6a94\u3001\u7f3a id\u3001\u82f1\u6587 placeholder \u8207 UI/\u6230\u9b25\u6f0f\u7ffb\\n"
+                    "- \u4f86\u6e90\u4ea4\u53c9\u6aa2\u67e5\uff1a\u672c\u6a5f 9.5.2 en/kr\u3001RCR 2026-06-12\u3001LLC_zh-CN \u6b77\u53f2\u8986\u84cb\u65cf\u7fa4\\n"
+                    "- License: CC BY-NC-SA 4.0"
+                ),
+                "authors": ["Auto-translate (based on official LTM + local 9.5.2 sources)"],
+                "url": args.url,
+                "size": size,
+                "fonts": [
+                    {
+                        "url": "https://github.com/LimbusTraditionalMandarin/font/releases/download/1744630853/SarasaGothicTC-Bold.ttf",
+                        "hash": "44563efaea921914d58e42bac4495881",
+                        "name": "Context/ContextFont.ttf",
+                    },
+                    {
+                        "url": "https://github.com/LimbusTraditionalMandarin/font/releases/download/1744630853/SarasaGothicTC-Bold.ttf",
+                        "hash": "44563efaea921914d58e42bac4495881",
+                        "name": "Title/TitleFont.ttf",
+                    },
+                ],
+                "format": "new",
+            }
+        ],
+    }
+    save_json(ROOT / "localizations.json", manifest)
+    report = load_json(WORKSPACE / "analysis.json")
+    qa = load_json(WORKSPACE / "qa_issues.json") if (WORKSPACE / "qa_issues.json").exists() else []
+    (ROOT / "report.md").write_text(
+        "# 9.5.2 \u7e41\u4e2d\u88dc\u4e01\u5831\u544a\n\n"
+        f"- \u57fa\u5e95\uff1a\u5b98\u65b9 `hant-LTM` `1780889854`\n"
+        f"- \u5019\u9078\u6a94\u6848\uff1a{report['stats']['candidate_files']}\n"
+        f"- \u5019\u9078 entries\uff1a{report['stats']['candidate_units']}\n"
+        f"- \u5019\u9078\u6b04\u4f4d\uff1a{report['stats']['candidate_fields']}\n"
+        f"- \u6b77\u53f2\u8986\u84cb\u65cf\u7fa4\uff1a{report['stats'].get('historical_families', 0)}\n"
+        f"- Zip\uff1a`dist/my-patch.zip` ({size} bytes, {count} files)\n"
+        f"- QA issues\uff1a{len(qa)}\n\n"
+        "## \u7b56\u7565\n\n"
+        "\u4ee5\u5b98\u65b9 LTM \u70ba\u57fa\u5e95\uff0c\u53ea overlay 9.5.2 \u7f3a\u6a94\u3001\u7f3a id\u3001"
+        "\u82f1\u6587 placeholder \u6b04\u4f4d\uff1b\u984d\u5916\u4f7f\u7528 LLC_zh-CN \u7684\u6b77\u53f2\u8986\u84cb"
+        "\u6a94\u6848\u65cf\u7fa4\u78ba\u8a8d\u6f0f\u6a94\uff0c\u4e0d\u7ffb\u8b6f asset/model/key \u6b04\u4f4d\u3002\n",
+        encoding="utf-8",
+    )
+    print(f"wrote {zip_path} ({size} bytes, {count} files)")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     sub = parser.add_subparsers(dest="cmd", required=True)
@@ -694,6 +911,7 @@ def main() -> int:
         p.add_argument("--hant", default=str(DEFAULT_HANT))
         p.add_argument("--localize", default=str(DEFAULT_LOCALIZE))
         p.add_argument("--rcr", default=str(DEFAULT_RCR))
+        p.add_argument("--historical", default=str(DEFAULT_HISTORICAL))
 
     p = sub.add_parser("prepare")
     add_sources(p)
@@ -706,6 +924,7 @@ def main() -> int:
     p.set_defaults(func=command_merge)
 
     p = sub.add_parser("qa")
+    add_sources(p)
     p.add_argument("--allow-issues", action="store_true")
     p.set_defaults(func=command_qa)
 

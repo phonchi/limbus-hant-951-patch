@@ -3,16 +3,16 @@
   "localizations": [
     {
       "id": "hant-mypatch-952",
-      "version": "1780889854-patched-952-202606122210",
-      "name": "Canto 9.5.2 繁中補丁 (auto-translate)",
+      "version": "1780889854-patched-952-202606122341",
+      "name": "Canto 9.5.2 繁中補丁",
       "flag": "HANT.png",
       "icon": "",
-      "description": "Limbus Company 9.5.2 繁體中文補丁\\n- 基於官方 LTM hant-LTM 1780889854\\n- 補 9.5.2 新增故事、事件、戰鬥、UI 與語音文字\\n- 來源：本機 9.5.2 en/kr + RCR 2026-06-12 交叉查漏\\n- License: CC BY-NC-SA 4.0",
+      "description": "Limbus Company 9.5.2 繁體中文補丁\\n- 基底：官方 LTM hant-LTM 1780889854\\n- 補上 9.5.2 缺檔、缺 id、英文 placeholder 與 UI/戰鬥漏翻\\n- 來源交叉檢查：本機 9.5.2 en/kr、RCR 2026-06-12、LLC_zh-CN 歷史覆蓋族群\\n- License: CC BY-NC-SA 4.0",
       "authors": [
         "Auto-translate (based on official LTM + local 9.5.2 sources)"
       ],
       "url": "https://raw.githubusercontent.com/phonchi/limbus-hant-951-patch/codex/952-patch/dist/my-patch.zip",
-      "size": 12669522,
+      "size": 12680518,
       "fonts": [
         {
           "url": "https://github.com/LimbusTraditionalMandarin/font/releases/download/1744630853/SarasaGothicTC-Bold.ttf",
