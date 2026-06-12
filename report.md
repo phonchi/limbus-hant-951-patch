@@ -1,0 +1,12 @@
+# 9.5.2 繁中補丁報告
+
+- 基底：官方 hant-LTM `1780889854`
+- 候選檔案：49
+- 候選 entries：2482
+- 候選欄位：3026
+- Zip：`dist/my-patch.zip` (12669522 bytes, 2008 files)
+- QA issues：0
+
+## 覆蓋策略
+
+以官方 LTM 為基底，只 overlay 9.5.2 缺檔、缺 id、英文 placeholder 欄位；不翻譯 asset/model/key 欄位。
