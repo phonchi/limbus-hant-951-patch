@@ -3,7 +3,7 @@
   "localizations": [
     {
       "id": "hant-mypatch-952",
-      "version": "1780889854-patched-952-202606131955",
+      "version": "1780889854-patched-952-202606132210",
       "name": "Canto 9.5.2 繁中補丁",
       "flag": "HANT.png",
       "icon": "",
@@ -12,7 +12,7 @@
         "Auto-translate (based on official LTM + local 9.5.2 sources)"
       ],
       "url": "https://raw.githubusercontent.com/phonchi/limbus-hant-951-patch/codex/952-patch/dist/my-patch.zip",
-      "size": 12685398,
+      "size": 12685372,
       "fonts": [
         {
           "url": "https://github.com/LimbusTraditionalMandarin/font/releases/download/1744630853/SarasaGothicTC-Bold.ttf",

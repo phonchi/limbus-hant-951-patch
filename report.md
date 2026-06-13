@@ -5,7 +5,7 @@
 - 候選 entries：2702
 - 候選欄位：3846
 - 歷史覆蓋族群：1630
-- Zip：`dist/my-patch.zip` (12685398 bytes, 2018 files)
+- Zip：`dist/my-patch.zip` (12685372 bytes, 2018 files)
 - QA issues：0
 
 ## 策略

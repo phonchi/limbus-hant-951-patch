@@ -336,6 +336,7 @@ FINAL_TEXT_REPLACEMENTS = {
 }
 
 FINAL_TEXT_REPLACEMENTS.update({
+    "?\u8272\u0080?": "\u2026\u2026",
     "convert \u6240\u6709\u786c\u5e63 into [SuperCoin]s and \u9020\u6210 +20% \u50b7\u5bb3": "\u5c07\u6240\u6709\u786c\u5e63\u8f49\u63db\u70ba [SuperCoin]\uff0c\u4e14\u9020\u6210\u50b7\u5bb3 +20%",
     "convert \u6240\u6709\u786c\u5e63 into [SuperCoin]s": "\u5c07\u6240\u6709\u786c\u5e63\u8f49\u63db\u70ba [SuperCoin]",
     "If there is an ally at less than 50% \u9ad4\u529b on the field excluding \u672c\u55ae\u4f4d, \u7372\u5f97 1 [SupportProtect] (\u6bcf\u56de\u5408 1 \u6b21)": "\u82e5\u5834\u4e0a\u5b58\u5728\u9ad4\u529b\u4f4e\u65bc 50% \u7684\u5176\u4ed6\u53cb\u65b9\uff0c\u7372\u5f97 1 [SupportProtect]\uff08\u6bcf\u56de\u5408 1 \u6b21\uff09",
